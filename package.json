@@ -1,0 +1,17 @@
+{
+  "name": "portfolio-page",
+  "version": "1.0.0",
+  "description": "Anh Le - Financial Analyst Portfolio",
+  "main": "index.html",
+  "scripts": {
+    "build": "echo 'Static site - no build required'",
+    "start": "echo 'Static site - serve index.html'"
+  },
+  "keywords": [
+    "portfolio",
+    "financial-analyst",
+    "static-site"
+  ],
+  "author": "Anh Le",
+  "license": "MIT"
+}
