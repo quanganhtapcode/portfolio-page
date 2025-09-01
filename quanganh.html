@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Anh Le - Financial Analyst & Data Professional | Portfolio</title>
+  <meta name="description" content="Experienced Financial Analyst specializing in investment analysis, valuation modeling, and data-driven insights. CFA Level 2 candidate with proven track record in Vietnamese market analysis." />
+  <meta name="keywords" content="financial analyst, investment analysis, CFA, valuation models, data analysis, Vietnam finance, portfolio management" />
+  <meta name="author" content="Anh Le" />
+  <meta property="og:title" content="Anh Le - Financial Analyst Portfolio" />
+  <meta property="og:description" content="Experienced Financial Analyst specializing in investment analysis and data-driven insights" />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://portfolio-page-ochre-ten.vercel.app" />
+  <link rel="canonical" href="https://portfolio-page-ochre-ten.vercel.app" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300..900&display=swap" rel="stylesheet">
+  <style>
+    :root{--bg:#ffffff; --fg:#0b0f19; --muted:#60646c; --line:#eceff3; --card:#f8fafc; --accent:#111827; --accent-2:#0ea5e9; --success:#10b981; --warning:#f59e0b; --radius:16px; --shadow:0 8px 30px rgba(0,0,0,.06); --shadow-hover:0 12px 40px rgba(0,0,0,.12);}
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    html,body{margin:0; padding:0; font-family:"Inter",system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial; background:var(--bg); color:var(--fg); line-height:1.6;}
+    a{color:inherit; text-decoration:none}
+    .container{width:min(1100px, 92vw); margin-inline:auto}
+    .nav{position:sticky; top:0; z-index:50; backdrop-filter:saturate(180%) blur(10px); background:rgba(255,255,255,.95); border-bottom:1px solid var(--line); transition:all .3s ease}
+    .nav-inner{display:flex; align-items:center; justify-content:space-between; padding:14px 0}
+    .brand{display:flex; gap:10px; align-items:center; font-weight:700; letter-spacing:.2px}
+    .brand-badge{width:32px; height:32px; border-radius:8px; background:linear-gradient(135deg,var(--accent),var(--accent-2)); display:grid; place-items:center; color:#fff; font-size:16px; font-weight:800;}
+    .nav-links{display:flex; gap:24px; font-weight:500}
+    .nav-links a{padding:8px 0; position:relative; transition:color .2s ease}
+    .nav-links a:hover{color:var(--accent-2)}
+    .nav-links a::after{content:''; position:absolute; bottom:0; left:0; width:0; height:2px; background:var(--accent-2); transition:width .3s ease}
+    .nav-links a:hover::after{width:100%}
+    .btn{display:inline-flex; align-items:center; gap:10px; padding:12px 20px; border-radius:999px; border:1px solid var(--fg); font-weight:600; transition:all .3s ease; cursor:pointer;}
+    .btn:hover{transform:translateY(-2px); box-shadow:var(--shadow-hover)}
+    .btn-primary{background:var(--fg); color:#fff; border-color:var(--fg)}
+    .btn-primary:hover{background:var(--accent-2); border-color:var(--accent-2)}
+    .btn-ghost{background:transparent; border-color:var(--muted)}
+    .btn-ghost:hover{background:var(--card); border-color:var(--accent)}
+    .hero{padding:80px 0 60px; display:grid; grid-template-columns:1.2fr .8fr; gap:50px; align-items:center}
+    .hero h1{font-size:clamp(36px, 5vw, 64px); line-height:1.1; margin:0 0 20px; font-weight:800; background:linear-gradient(135deg, var(--fg), var(--accent-2)); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text;}
+    .hero .subtitle{color:var(--accent-2); font-size:20px; font-weight:600; margin:0 0 16px; text-transform:uppercase; letter-spacing:1px}
+    .hero p{color:var(--muted); font-size:19px; margin:0 0 30px; line-height:1.7}
+    .tag-row{display:flex; flex-wrap:wrap; gap:12px; margin:24px 0 36px}
+    .tag{font-size:14px; padding:10px 16px; border-radius:999px; background:var(--card); border:1px solid var(--line); font-weight:500; transition:all .2s ease}
+    .tag:hover{background:#fff; border-color:var(--accent-2); transform:translateY(-1px)}
+    .hero-card{background:var(--card); border:1px solid var(--line); border-radius:var(--radius); box-shadow:var(--shadow); padding:28px; position:relative; overflow:hidden}
+    .hero-card::before{content:''; position:absolute; top:0; left:0; right:0; height:4px; background:linear-gradient(90deg, var(--accent), var(--accent-2), var(--success))}
+    .hero-grid{display:grid; grid-template-columns:1fr 1fr; gap:16px}
+    .stat{background:#fff; border:1px solid var(--line); border-radius:12px; padding:20px; text-align:center; transition:all .2s ease}
+    .stat:hover{transform:translateY(-2px); box-shadow:var(--shadow)}
+    .stat .num{font-weight:800; font-size:32px; color:var(--accent)}
+    .stat .lbl{color:var(--muted); font-size:14px; margin-top:8px; font-weight:500}
+    .section{padding:80px 0}
+    .section h2{font-size:36px; margin:0 0 16px; font-weight:800}
+    .section p.lead{color:var(--muted); margin:0 0 40px; font-size:18px; line-height:1.7}
+    .grid{display:grid; gap:20px}
+    .grid.cols-3{grid-template-columns:repeat(3,1fr)}
+    .grid.cols-2{grid-template-columns:repeat(2,1fr)}
+    .grid.cols-4{grid-template-columns:repeat(4,1fr)}
+    .card{background:#fff; border:1px solid var(--line); border-radius:var(--radius); box-shadow:var(--shadow); padding:24px; transition:all .3s ease; position:relative; overflow:hidden}
+    .card:hover{transform:translateY(-4px); box-shadow:var(--shadow-hover)}
+    .card .title{font-weight:700; margin:0 0 10px; font-size:18px}
+    .card .desc{color:var(--muted); font-size:15px; line-height:1.6}
+    .chip{display:inline-flex; align-items:center; gap:6px; font-size:12px; padding:8px 12px; border-radius:999px; background:var(--card); border:1px solid var(--line); font-weight:500}
+    .chip.primary{background:var(--accent-2); color:#fff; border-color:var(--accent-2)}
+    .chip.success{background:var(--success); color:#fff; border-color:var(--success)}
+    .proj-meta{display:flex; gap:8px; flex-wrap:wrap; margin-top:16px}
+    .project-link{display:inline-flex; gap:8px; align-items:center; font-weight:600; margin-top:16px; color:var(--accent-2); transition:color .2s ease}
+    .project-link:hover{color:var(--accent)}
+    .list{display:grid; gap:12px}
+    .list-item{display:flex; gap:14px; align-items:flex-start}
+    .bullet{width:10px; height:10px; border-radius:50%; background:var(--accent-2); margin-top:10px; flex-shrink:0}
+    .skill-grid{display:grid; grid-template-columns:repeat(auto-fit, minmax(140px, 1fr)); gap:12px; margin-top:20px}
+    .skill-item{background:var(--card); border:1px solid var(--line); border-radius:8px; padding:16px; text-align:center; transition:all .2s ease}
+    .skill-item:hover{background:#fff; border-color:var(--accent-2); transform:translateY(-2px)}
+    .skill-icon{font-size:24px; margin-bottom:8px}
+    .testimonial{background:var(--card); border-left:4px solid var(--accent-2); border-radius:var(--radius); padding:24px; margin:20px 0}
+    .testimonial-text{font-style:italic; margin-bottom:16px; font-size:16px}
+    .testimonial-author{font-weight:600; color:var(--accent)}
+    .cta-section{background:linear-gradient(135deg, var(--accent), var(--accent-2)); color:#fff; border-radius:var(--radius); padding:60px 40px; text-align:center; margin:40px 0}
+    .cta-section h2{color:#fff; margin-bottom:16px}
+    .cta-section p{opacity:.9; margin-bottom:30px; font-size:18px}
+    .btn-white{background:#fff; color:var(--accent); border-color:#fff}
+    .btn-white:hover{background:rgba(255,255,255,.9); transform:translateY(-2px)}
+    .footer{border-top:1px solid var(--line); padding:40px 0; color:var(--muted); display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:16px}
+    .social-links{display:flex; gap:16px}
+    .social-links a{width:40px; height:40px; border-radius:50%; background:var(--card); border:1px solid var(--line); display:grid; place-items:center; transition:all .2s ease}
+    .social-links a:hover{background:var(--accent-2); color:#fff; transform:translateY(-2px)}
+    @media (max-width: 900px){.hero{grid-template-columns:1fr; padding-top:60px; gap:40px}.grid.cols-3{grid-template-columns:repeat(2,1fr)}.grid.cols-4{grid-template-columns:repeat(2,1fr)}.cta-section{padding:40px 20px}}
+    @media (max-width: 640px){.grid.cols-3,.grid.cols-2,.grid.cols-4{grid-template-columns:1fr}.nav-inner{padding:12px 0}.btn{padding:10px 16px}.nav-links{display:none}.hero{padding-top:40px}.section{padding:60px 0}.skill-grid{grid-template-columns:repeat(2, 1fr)}}
+  </style>
+</head>
+<body>
+  <nav class="nav">
+    <div class="container nav-inner">
+      <a href="#top" class="brand"><span class="brand-badge">QA</span><span>quanganh<span style="opacity:.4">.org</span></span></a>
+      <div class="nav-links"><a href="#projects">Projects</a><a href="#skills">Skills</a><a href="#career">Career</a><a href="#contact">Contact</a></div>
+    </div>
+  </nav>
+
+  <header id="top" class="hero container">
+    <div>
+      <div class="subtitle">Financial Analyst & Data Professional</div>
+      <h1>Transforming Data into Strategic Financial Insights</h1>
+      <p>Experienced financial analyst specializing in investment analysis, valuation modeling, and data-driven decision making. CFA Level 2 candidate with proven expertise in Vietnamese equity markets and quantitative research.</p>
+      <div class="tag-row">
+        <span class="tag">📊 Financial Analysis</span>
+        <span class="tag">💹 Investment Research</span>
+        <span class="tag">🔍 Valuation Models</span>
+        <span class="tag">📈 Data Visualization</span>
+        <span class="tag">🐍 Python & SQL</span>
+      </div>
+      <div style="display:flex; gap:16px; flex-wrap:wrap">
+        <a class="btn btn-primary" href="#projects">View My Work</a>
+        <a class="btn btn-ghost" href="#contact">Get In Touch</a>
+        <a class="btn btn-ghost" href="https://drive.google.com/file/d/1kmxCIHsnXB4RMgf4OXFSWJm8S004ey6Q/view?usp=sharing" target="_blank">Download CV</a>
+      </div>
+    </div>
+    <div class="hero-card">
+      <div class="hero-grid">
+        <div class="stat"><div class="num">CFA L2</div><div class="lbl">Candidate</div></div>
+        <div class="stat"><div class="num">3.67 GPA</div><div class="lbl">VNU – UEB</div></div>
+        <div class="stat"><div class="num">Top 5%</div><div class="lbl">BBA Graduate</div></div>
+        <div class="stat"><div class="num">6/7</div><div class="lbl">SSC Certificates</div></div>
+      </div>
+    </div>
+  </header>
+
+  <section id="projects" class="section container">
+    <h2>Featured Projects</h2>
+    <p class="lead">Comprehensive financial analysis tools and research projects showcasing expertise in valuation, data modeling, and market analysis.</p>
+    <div class="grid cols-3">
+      <article class="card">
+        <h3 class="title">🏢 Vietnamese Stock Valuation Platform</h3>
+        <p class="desc">Comprehensive equity valuation tool featuring DCF, FCFF, FCFE models with real-time data integration. Includes sector-specific analysis for banking and industrial companies with interactive charts and API endpoints.</p>
+        <div class="proj-meta">
+          <span class="chip primary">Financial Modeling</span>
+          <span class="chip">Flask</span>
+          <span class="chip">Chart.js</span>
+          <span class="chip">AWS</span>
+        </div>
+        <a class="project-link" href="https://valuations.quanganh.org" target="_blank">🔗 Live Platform →</a>
+      </article>
+      
+      <article class="card">
+        <h3 class="title">📊 Financial Inclusion & SDGs Research</h3>
+        <p class="desc">Comprehensive panel data analysis (2000-2023) examining the relationship between Financial Inclusion and Sustainable Development Goals across Asian markets. Features PCA indexing and econometric modeling.</p>
+        <div class="proj-meta">
+          <span class="chip success">Research</span>
+          <span class="chip">Python</span>
+          <span class="chip">Stata</span>
+          <span class="chip">Econometrics</span>
+        </div>
+        <a class="project-link" href="https://drive.google.com/drive/u/1/folders/1cSNZtGKzk1AYgDc092t54xOaENbJhhNJ" target="_blank">📄 Research Summary →</a>
+      </article>
+      
+      <article class="card">
+        <h3 class="title">💰 Multi-Currency Expense Tracker</h3>
+        <p class="desc">Automated expense tracking system with real-time currency conversion, Google Sheets integration, and intelligent categorization. Built for international travel and investment tracking.</p>
+        <div class="proj-meta">
+          <span class="chip">Python</span>
+          <span class="chip">Telegram API</span>
+          <span class="chip">Google Sheets</span>
+        </div>
+        <a class="project-link" href="#expense-tracker">🤖 Case Study →</a>
+      </article>
+    </div>
+    
+    <!-- Additional Projects Row -->
+    <div class="grid cols-2" style="margin-top: 24px;">
+      <article class="card">
+        <h3 class="title">📈 Market Analysis Dashboard</h3>
+        <p class="desc">Real-time Vietnamese stock market analysis with technical indicators, fundamental screening, and portfolio optimization tools. Features automated report generation and risk assessment.</p>
+        <div class="proj-meta">
+          <span class="chip">Data Analysis</span>
+          <span class="chip">React</span>
+          <span class="chip">D3.js</span>
+        </div>
+        <a class="project-link" href="#market-dashboard">📊 View Dashboard →</a>
+      </article>
+      
+      <article class="card">
+        <h3 class="title">🏭 IDC Sector Analysis</h3>
+        <p class="desc">Comprehensive analysis of Vietnam's Industrial Development Corporation (IDC) sector including market positioning, financial performance evaluation, and strategic assessment with detailed presentations and reports.</p>
+        <div class="proj-meta">
+          <span class="chip primary">Sector Analysis</span>
+          <span class="chip">Excel</span>
+          <span class="chip">Python</span>
+        </div>
+        <a class="project-link" href="https://drive.google.com/drive/u/1/folders/172POWRDYDfnu38jXGigxFkSsiwfRU4hU" target="_blank">🏛️ IDC Analysis →</a>
+      </article>
+    </div>
+  </section>
+
+  <!-- Skills Section -->
+  <section id="skills" class="section container">
+    <h2>Core Competencies</h2>
+    <p class="lead">Technical expertise and professional skills developed through academic excellence and practical experience in financial analysis.</p>
+    
+    <div class="grid cols-2">
+      <div class="card">
+        <h3 class="title">💼 Financial Analysis</h3>
+        <div class="skill-grid">
+          <div class="skill-item">
+            <div class="skill-icon">📊</div>
+            <div>Financial Modeling</div>
+          </div>
+          <div class="skill-item">
+            <div class="skill-icon">💹</div>
+            <div>Equity Valuation</div>
+          </div>
+          <div class="skill-item">
+            <div class="skill-icon">📈</div>
+            <div>Investment Analysis</div>
+          </div>
+          <div class="skill-item">
+            <div class="skill-icon">🏦</div>
+            <div>Banking Analysis</div>
+          </div>
+          <div class="skill-item">
+            <div class="skill-icon">⚖️</div>
+            <div>Risk Assessment</div>
+          </div>
+          <div class="skill-item">
+            <div class="skill-icon">📋</div>
+            <div>Due Diligence</div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="card">
+        <h3 class="title">🛠️ Technical Skills</h3>
+        <div class="skill-grid">
+          <div class="skill-item">
+            <div class="skill-icon">🐍</div>
+            <div>Python</div>
+          </div>
+          <div class="skill-item">
+            <div class="skill-icon">📊</div>
+            <div>SQL & Databases</div>
+          </div>
+          <div class="skill-item">
+            <div class="skill-icon">📈</div>
+            <div>Excel & VBA</div>
+          </div>
+          <div class="skill-item">
+            <div class="skill-icon">📉</div>
+            <div>Stata</div>
+          </div>
+          <div class="skill-item">
+            <div class="skill-icon">🌐</div>
+            <div>Flask/FastAPI</div>
+          </div>
+          <div class="skill-item">
+            <div class="skill-icon">☁️</div>
+            <div>AWS/Cloud</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="grid cols-3" style="margin-top: 24px;">
+      <div class="card">
+        <h3 class="title">🎓 Certifications</h3>
+        <div class="list">
+          <div class="list-item"><span class="bullet"></span><div><strong>CFA Level 2</strong> Candidate</div></div>
+          <div class="list-item"><span class="bullet"></span><div><strong>SSC Securities</strong> 6/7 Certificates</div></div>
+          <div class="list-item"><span class="bullet"></span><div><strong>Microsoft Office</strong> Specialist</div></div>
+        </div>
+      </div>
+      
+      <div class="card">
+        <h3 class="title">🌍 Languages</h3>
+        <div class="list">
+          <div class="list-item"><span class="bullet"></span><div><strong>English</strong> - Fluent</div></div>
+          <div class="list-item"><span class="bullet"></span><div><strong>Vietnamese</strong> - Native</div></div>
+          <div class="list-item"><span class="bullet"></span><div><strong>Financial Terminology</strong> - Expert</div></div>
+        </div>
+      </div>
+      
+      <div class="card">
+        <h3 class="title">🎯 Soft Skills</h3>
+        <div class="list">
+          <div class="list-item"><span class="bullet"></span><div><strong>Analytical Thinking</strong></div></div>
+          <div class="list-item"><span class="bullet"></span><div><strong>Problem Solving</strong></div></div>
+          <div class="list-item"><span class="bullet"></span><div><strong>Communication</strong></div></div>
+          <div class="list-item"><span class="bullet"></span><div><strong>Attention to Detail</strong></div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Testimonials/Achievements Section -->
+  <section class="section container">
+    <h2>Recognition & Impact</h2>
+    <p class="lead">Achievements and feedback from colleagues, mentors, and academic institutions.</p>
+    
+    <div class="testimonial">
+      <div class="testimonial-text">"Anh consistently delivers high-quality financial analysis with exceptional attention to detail. His ability to synthesize complex market data into actionable insights has been invaluable to our research team."</div>
+      <div class="testimonial-author">— Senior Analyst, Dawn of Finance</div>
+    </div>
+    
+    <div class="grid cols-4">
+      <div class="card">
+        <h3 class="title">🏆 Academic Excellence</h3>
+        <div class="desc">Top 5% of BBA program with 3.67 GPA and Excellent Student Scholarship at VNU-UEB</div>
+      </div>
+      <div class="card">
+        <h3 class="title">📈 Performance Impact</h3>
+        <div class="desc">Improved sales performance by 15% through analytical approach to customer behavior</div>
+      </div>
+      <div class="card">
+        <h3 class="title">🎯 CFA Progress</h3>
+        <div class="desc">Successfully advancing through CFA program with strong performance in quantitative methods</div>
+      </div>
+      <div class="card">
+        <h3 class="title">💼 Professional Growth</h3>
+        <div class="desc">Rapid progression from sales to analyst roles, demonstrating analytical capabilities</div>
+      </div>
+    </div>
+  </section>
+
+  <section id="career" class="section container">
+    <h2>Professional Experience</h2>
+    <p class="lead">Career progression showcasing expertise in financial analysis, research, and strategic decision-making.</p>
+    
+    <div class="grid cols-2">
+      <div class="card">
+        <h3 class="title">💼 Professional Experience</h3>
+        <div class="list">
+          <div class="list-item">
+            <span class="bullet"></span>
+            <div>
+              <strong>Financial Analyst</strong> — Dawn of Finance (DSC)<br/>
+              <em>January 2025 - Present</em><br/>
+              • Conducted comprehensive analysis of KBC and IDC sectors<br/>
+              • Analyzed FDI inflows via China+1 strategy impact<br/>
+              • Assessed Global Minimum Tax implications for Vietnamese corporates<br/>
+              • Produced detailed research reports and executive presentations
+            </div>
+          </div>
+          <div class="list-item">
+            <span class="bullet"></span>
+            <div>
+              <strong>Research Analyst</strong> — Dawn of Finance (FPT Capital)<br/>
+              <em>June 2024 - December 2024</em><br/>
+              • Developed macroeconomic outlook for Vietnam 2025<br/>
+              • Analyzed ETF market trends and investment opportunities<br/>
+              • Created financial models for equity valuation<br/>
+              • Collaborated with senior analysts on market research
+            </div>
+          </div>
+          <div class="list-item">
+            <span class="bullet"></span>
+            <div>
+              <strong>Sales Associate</strong> — Cat Hai Oil & Grease<br/>
+              <em>2022 - 2023</em><br/>
+              • Applied analytical thinking to improve sales performance by 15%<br/>
+              • Developed customer relationship management strategies<br/>
+              • Utilized data analysis for inventory optimization
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="card">
+        <h3 class="title">🎓 Education & Certifications</h3>
+        <div class="list">
+          <div class="list-item">
+            <span class="bullet"></span>
+            <div>
+              <strong>Bachelor of Business Administration</strong><br/>
+              <em>Vietnam National University - University of Economics and Business</em><br/>
+              GPA: 3.67/4.0 | Top 5% of graduating class | June 2025<br/>
+              <small>Excellence Scholarship recipient</small>
+            </div>
+          </div>
+          <div class="list-item">
+            <span class="bullet"></span>
+            <div>
+              <strong>CFA Level 2 Candidate</strong><br/>
+              <em>CFA Institute</em><br/>
+              Advanced through Level 1 with strong performance in quantitative methods, financial reporting, and equity investments
+            </div>
+          </div>
+          <div class="list-item">
+            <span class="bullet"></span>
+            <div>
+              <strong>Securities Certifications</strong><br/>
+              <em>State Securities Commission of Vietnam</em><br/>
+              Completed 6 out of 7 professional certificates including securities analysis and portfolio management
+            </div>
+          </div>
+          <div class="list-item">
+            <span class="bullet"></span>
+            <div>
+              <strong>Microsoft Office Specialist</strong><br/>
+              <em>Microsoft</em><br/>
+              Certified in Word, Excel, and PowerPoint with advanced proficiency in financial modeling
+            </div>
+          </div>
+        </div>
+        
+        <div style="margin-top: 24px;">
+          <a class="btn btn-primary" href="https://drive.google.com/file/d/1kmxCIHsnXB4RMgf4OXFSWJm8S004ey6Q/view?usp=sharing" target="_blank">📄 Download Full CV</a>
+          <a class="btn btn-ghost" href="#contact" style="margin-left: 12px;">💬 Contact Me</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="about" class="section container">
+    <h2>About Me</h2>
+    <p class="lead">Passionate financial analyst combining quantitative expertise with technology to deliver data-driven insights and innovative solutions.</p>
+    
+    <div class="grid cols-2">
+      <div class="card">
+        <h3 class="title">🎯 My Approach</h3>
+        <div class="list">
+          <div class="list-item"><span class="bullet"></span><div><strong>Data-Driven Analysis:</strong> Leveraging quantitative methods and statistical tools to uncover market insights</div></div>
+          <div class="list-item"><span class="bullet"></span><div><strong>Technology Integration:</strong> Building automated tools and platforms to enhance analytical efficiency</div></div>
+          <div class="list-item"><span class="bullet"></span><div><strong>Strategic Thinking:</strong> Connecting financial analysis to business strategy and investment decisions</div></div>
+          <div class="list-item"><span class="bullet"></span><div><strong>Continuous Learning:</strong> Staying current with market trends, regulations, and analytical methodologies</div></div>
+        </div>
+      </div>
+      
+      <div class="card">
+        <h3 class="title">💡 What Drives Me</h3>
+        <p class="desc">I'm passionate about transforming complex financial data into clear, actionable insights that drive strategic decision-making. My goal is to bridge the gap between traditional financial analysis and modern technology, creating solutions that enhance efficiency and accuracy in investment research.</p>
+        
+        <p class="desc" style="margin-top: 16px;">Whether analyzing Vietnamese equity markets, building valuation models, or developing automated research tools, I approach each project with meticulous attention to detail and a commitment to excellence.</p>
+        
+        <div class="proj-meta" style="margin-top: 20px;">
+          <span class="chip">Analytical Mindset</span>
+          <span class="chip">Problem Solving</span>
+          <span class="chip">Innovation</span>
+          <span class="chip">Collaboration</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Call to Action Section -->
+  <section class="container">
+    <div class="cta-section">
+      <h2>Ready to Collaborate?</h2>
+      <p>I'm actively seeking opportunities in financial analysis, investment research, and data-driven roles where I can contribute to strategic decision-making and continue growing my expertise.</p>
+      <div style="display: flex; gap: 16px; justify-content: center; flex-wrap: wrap;">
+        <a class="btn btn-white" href="#contact">💬 Let's Connect</a>
+        <a class="btn btn-white" href="https://drive.google.com/file/d/1kmxCIHsnXB4RMgf4OXFSWJm8S004ey6Q/view?usp=sharing" target="_blank">📄 View My CV</a>
+        <a class="btn btn-white" href="https://valuations.quanganh.org" target="_blank">🔗 See My Work</a>
+      </div>
+    </div>
+  </section>
+
+  <section id="contact" class="section container">
+    <h2>Let's Connect</h2>
+    <p class="lead">Ready to discuss opportunities in financial analysis, investment research, or data-driven projects? I'd love to hear from you.</p>
+    
+    <div class="grid cols-3">
+      <a class="card" href="mailto:me@quanganh.org">
+        <div class="title">📧 Email</div>
+        <div class="desc">me@quanganh.org</div>
+        <small style="color: var(--muted); margin-top: 8px; display: block;">Best for professional inquiries</small>
+      </a>
+      
+      <a class="card" href="https://www.linkedin.com/in/quanganhday/" target="_blank">
+        <div class="title">💼 LinkedIn</div>
+        <div class="desc">linkedin.com/in/quanganhday</div>
+        <small style="color: var(--muted); margin-top: 8px; display: block;">Professional networking & updates</small>
+      </a>
+      
+      <a class="card" href="https://github.com/quanganhtapcode" target="_blank">
+        <div class="title">💻 GitHub</div>
+        <div class="desc">github.com/quanganhtapcode</div>
+        <small style="color: var(--muted); margin-top: 8px; display: block;">Code repositories & projects</small>
+      </a>
+    </div>
+    
+    <div style="text-align: center; margin-top: 40px; padding: 32px; background: var(--card); border-radius: var(--radius); border: 1px solid var(--line);">
+      <h3 style="margin: 0 0 16px;">📍 Based in Vietnam</h3>
+      <p style="margin: 0; color: var(--muted);">Available for full-time opportunities in financial analysis, investment research, and quantitative roles.<br/>Open to remote work and international collaboration.</p>
+    </div>
+  </section>
+
+  <footer class="footer container">
+    <div>
+      <div style="font-weight: 600; margin-bottom: 8px;">© <span id="y"></span> Anh Le - Financial Analyst</div>
+      <div style="color: var(--muted); font-size: 14px;">Designed & built with modern web technologies</div>
+    </div>
+    
+    <div style="display: flex; align-items: center; gap: 16px;">
+      <div class="social-links">
+        <a href="mailto:me@quanganh.org" title="Email">📧</a>
+        <a href="https://www.linkedin.com/in/quanganhday/" target="_blank" title="LinkedIn">💼</a>
+        <a href="https://github.com/quanganhtapcode" target="_blank" title="GitHub">💻</a>
+        <a href="https://valuations.quanganh.org" target="_blank" title="Portfolio">🔗</a>
+      </div>
+      <a href="#top" style="font-weight: 500;">↑ Back to top</a>
+    </div>
+  </footer>
+
+  <script>
+    document.querySelectorAll('a[href^="#"]').forEach(a=>{a.addEventListener('click', e=>{const id=a.getAttribute('href');const el=document.querySelector(id);if(el){e.preventDefault(); el.scrollIntoView({behavior:'smooth'});}})});
+    document.getElementById('y').textContent=new Date().getFullYear();
+  </script>
+</body>
+</html>
