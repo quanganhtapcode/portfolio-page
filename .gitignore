@@ -8,6 +8,9 @@ yarn-error.log*
 dist/
 build/
 
+# Keep index.html for Vercel deployment
+!index.html
+
 # Environment variables
 .env
 .env.local
