@@ -12,7 +12,13 @@ const Projects = () => {
 
         <div className="space-y-12">
           {projects.map((project) => (
-            <div key={project.id} className="group cursor-pointer">
+            <a 
+              key={project.id} 
+              href={project.link}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="block group cursor-pointer"
+            >
               <div className="flex flex-col md:flex-row md:items-baseline justify-between mb-3">
                 <h3 className="text-2xl font-medium group-hover:text-blue-600 transition-colors">
                   {project.title}
@@ -22,7 +28,7 @@ const Projects = () => {
               <p className="text-gray-500 leading-relaxed max-w-4xl text-lg">
                 {project.description}
               </p>
-              <div className="mt-4 flex gap-2">
+              <div className="mt-4 flex gap-2 flex-wrap">
                 {project.tags.map((tag, index) => (
                   <span 
                     key={index}
@@ -37,7 +43,7 @@ const Projects = () => {
                 ))}
               </div>
               <div className="h-px w-full bg-gray-100 mt-8 group-hover:bg-gray-200 transition-colors"></div>
-            </div>
+            </a>
           ))}
         </div>
       </div>
