@@ -1,26 +1,35 @@
-# Apple Touch Icon
+# Apple Touch Icon Guide (theo chuẩn Apple)
 
-Để logo hiện tốt nhất trên Safari và iOS:
+Theo tài liệu chính thức của Apple, cần tạo các icon PNG với kích thước:
 
-1. Tạo file PNG từ favicon.svg với kích thước 180x180px
-2. Đặt tên là `apple-touch-icon.png` 
-3. Đặt trong folder public/
+## Kích thước cần tạo:
+- **180x180px** - iPhone Retina (ưu tiên cao nhất)
+- **167x167px** - iPad Retina
+- **152x152px** - iPad
+- **120x120px** - fallback (tùy chọn)
 
 ## Cách tạo nhanh:
 
-### Online:
-- Mở https://cloudconvert.com/svg-to-png
+### Online (Khuyên dùng):
+1. Vào https://favicon.io/favicon-converter/
+2. Upload `favicon.svg`
+3. Tạo các size: 180x180, 167x167, 152x152
+4. Download và đổi tên:
+   - `apple-touch-icon.png` (180x180 - mặc định)
+   - `apple-touch-icon-180x180.png`
+   - `apple-touch-icon-167x167.png`
+   - `apple-touch-icon-152x152.png`
+
+### Hoặc dùng CloudConvert:
+- Vào https://cloudconvert.com/svg-to-png
 - Upload favicon.svg
-- Set width: 180, height: 180
-- Convert và download
-- Đổi tên thành `apple-touch-icon.png`
+- Convert từng size một
 
-### Hoặc dùng command (nếu có ImageMagick):
-```bash
-magick convert -resize 180x180 -background none favicon.svg apple-touch-icon.png
-```
+## Đặt file:
+Đặt tất cả file PNG vào root folder (cùng cấp với index.html)
 
-Sau khi có file, cập nhật index.html:
-```html
-<link rel="apple-touch-icon" href="/apple-touch-icon.png" />
-```
+## Lưu ý:
+- iOS 7+ không thêm hiệu ứng vào icon nữa (không cần -precomposed)
+- File phải là PNG, không nên dùng SVG
+- Nếu không có đúng size, iOS sẽ tự scale (nhưng có thể mờ)
+- Ưu tiên 180x180 vì đây là size iPhone hiện tại
