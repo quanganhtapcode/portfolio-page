@@ -22,11 +22,11 @@ const Hero = ({ isVisible }) => {
         </h1>
         
         <p className="text-2xl md:text-3xl text-gray-500 max-w-4xl leading-relaxed font-light">
-          Tôi là Quang Anh. Một chuyên gia tài chính với tư duy định lượng. 
-          Kết hợp kiến thức <span className="text-gray-900 font-medium">CFA</span> với kỹ năng <span className="text-gray-900 font-medium">Lập trình dữ liệu</span> để xây dựng các chiến lược đầu tư hiệu quả.
+          Mình là Quang Anh. Thích phân tích tài chính và viết code. 
+          Đang học <span className="text-gray-900 font-medium">CFA</span>, biết chút <span className="text-gray-900 font-medium">Python</span>, thỉnh thoảng làm mấy model định giá cổ phiếu cho vui.
         </p>
 
-        <div className="mt-10 flex flex-wrap gap-4">>
+        <div className="mt-10 flex flex-wrap gap-4">
           <a href="mailto:quanganh.ibd@gmail.com" className="bg-[#1D1D1F] text-white px-8 py-4 rounded-full text-lg font-medium hover:bg-gray-800 transition-all flex items-center gap-2">
             Contact Me <ArrowUpRight size={20} />
           </a>
