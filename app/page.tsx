@@ -1,4 +1,4 @@
-﻿const Arrow = () => <img className="arrowIcon" src="/arrow-up-right.svg" alt="" aria-hidden="true" />;
+﻿const Arrow = () => <span className="arrowIcon" aria-hidden="true" />;
 export default function Home() { return <main>
 <nav className="nav"><a className="brand" href="#top">LA<span>®</span></a><div className="navLinks"><a href="#about">About</a><a href="#work">Portfolio</a><a href="#research">Research</a><a href="#experience">Experience</a><a href="#education">Education</a></div><a className="contact" href="https://www.linkedin.com/in/quanganhday/" target="_blank" rel="noreferrer">LinkedIn <Arrow /></a></nav>
 <section id="top" className="hero"><div className="heroCopy"><div className="metrics"><span><b>3.67</b> GPA / 4.0</span><span><b>Top 3</b> Finance program</span></div><h1 aria-label="Hello"><span className="helloLetter">H</span><span className="helloLetter">e</span><span className="helloLetter">l</span><span className="helloLetter">l</span><span className="helloLetter">o</span><span className="helloDot">.</span></h1><p className="signature">I&apos;m <b>Le Quang Anh</b>, a finance &amp; deals analyst.</p><div className="heroLinks"><a href="#work">Scroll down <Arrow /></a><a href="mailto:quanganh.ibd@gmail.com">Let&apos;s work together <Arrow /></a></div></div><div className="portrait"><div className="portraitFrame"><img src="/profile-cutout.png" alt="Le Quang Anh" /></div><p>Hanoi, Vietnam<br/>CFA Level II Candidate</p></div></section>
@@ -8,6 +8,7 @@ export default function Home() { return <main>
 <section className="education" id="education"><div><p className="eyebrow">Education &amp; credentials</p><h2>A strong foundation<br/>for what&apos;s next.</h2></div><div className="credentials"><article><span>2025</span><h3>BBA, Finance</h3><p>VNU University of Economics &amp; Business<br/>GPA 3.67 / 4.0 · Top 3 of program</p></article><article><span>In progress</span><h3>CFA Level II Candidate</h3><p>Chartered Financial Analyst Program</p></article><article><span>Toolkit</span><h3>Financial research &amp; modelling</h3><p>DCF · Comparable companies · Excel · Python · Flask · Bloomberg</p></article></div></section>
 <footer><p>Have an opportunity<br/>in mind?</p><a href="mailto:quanganh.ibd@gmail.com">quanganh.ibd@gmail.com <Arrow /></a><div><span>© {new Date().getFullYear()} Le Quang Anh</span><a href="https://quanganh.org" target="_blank" rel="noreferrer">quanganh.org</a></div></footer>
 </main>; }
+
 
 
 
