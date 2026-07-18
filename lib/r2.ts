@@ -49,6 +49,11 @@ export function toObjectKey(publicKey: string) {
   return `${FILES_PREFIX}${clean}`;
 }
 
+export function publicFileUrl(publicKey: string) {
+  const filename = publicKey.split("/").pop() || publicKey;
+  const legacyKey = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}--/i.test(filename);
+  return `/files/${publicKey}${legacyKey ? "?view=1" : ""}`;
+}
 export function displayName(publicKey: string) {
   const filename = publicKey.split("/").pop() || publicKey;
   const delimiter = filename.indexOf("--");

@@ -1,6 +1,6 @@
 import { ListObjectsV2Command } from "@aws-sdk/client-s3";
 import { NextResponse } from "next/server";
-import { displayName, FILES_PREFIX, FOLDER_MARKER, getBucketName, getR2Client, normalizeFolder, toPublicKey } from "@/lib/r2";
+import { displayName, FILES_PREFIX, FOLDER_MARKER, getBucketName, getR2Client, normalizeFolder, publicFileUrl, toPublicKey } from "@/lib/r2";
 
 export const runtime = "nodejs";
 
@@ -18,7 +18,7 @@ export async function GET(request: Request) {
     }).sort((a, b) => a.name.localeCompare(b.name));
     const files = (result.Contents ?? []).filter((file) => file.Key && file.Key !== prefix && !file.Key.endsWith(`/${FOLDER_MARKER}`)).map((file) => {
       const key = toPublicKey(file.Key!);
-      return { key, name: displayName(key), size: file.Size ?? 0, updatedAt: file.LastModified?.toISOString() ?? null, url: `/files/${key}?view=1` };
+      return { key, name: displayName(key), size: file.Size ?? 0, updatedAt: file.LastModified?.toISOString() ?? null, url: publicFileUrl(key) };
     }).sort((a, b) => (b.updatedAt ?? "").localeCompare(a.updatedAt ?? ""));
     return NextResponse.json({ folder, folders, files });
   } catch (error) {

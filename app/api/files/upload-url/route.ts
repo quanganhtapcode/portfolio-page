@@ -2,7 +2,7 @@ import { PutObjectCommand } from "@aws-sdk/client-s3";
 import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
 import { NextResponse } from "next/server";
 import { isFilesAdmin } from "@/lib/files-auth";
-import { createFileKey, getBucketName, getR2Client, toPublicKey } from "@/lib/r2";
+import { createFileKey, getBucketName, getR2Client, publicFileUrl, toPublicKey } from "@/lib/r2";
 
 export const runtime = "nodejs";
 
@@ -19,7 +19,7 @@ export async function POST(request: Request) {
       { expiresIn: 300 },
     );
     const publicKey = toPublicKey(key);
-    return NextResponse.json({ uploadUrl, key: publicKey, publicUrl: `/files/${publicKey}?view=1`, headers: { "Content-Type": type } });
+    return NextResponse.json({ uploadUrl, key: publicKey, publicUrl: publicFileUrl(publicKey), headers: { "Content-Type": type } });
   } catch (error) {
     console.error(error);
     return NextResponse.json({ error: "Could not prepare the upload. Check the R2 configuration." }, { status: 500 });
