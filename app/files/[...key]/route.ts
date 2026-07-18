@@ -19,8 +19,8 @@ export async function GET(request: Request, { params }: { params: Promise<{ key:
 
     // Native browser PDF viewers are substantially more reliable on iPhone than PDFs embedded in an iframe.
     const response = NextResponse.redirect(rawUrl);
-    const response.headers.set("Cache-Control", "no-store");
-    return const response;
+    response.headers.set("Cache-Control", "no-store");
+    return response;
   } catch (error) {
     console.error(error);
     return new NextResponse("File not found.", { status: 404 });
