@@ -18,7 +18,7 @@ export async function GET(request: Request) {
     }).sort((a, b) => a.name.localeCompare(b.name));
     const files = (result.Contents ?? []).filter((file) => file.Key && file.Key !== prefix && !file.Key.endsWith(`/${FOLDER_MARKER}`)).map((file) => {
       const key = toPublicKey(file.Key!);
-      return { key, name: displayName(key), size: file.Size ?? 0, updatedAt: file.LastModified?.toISOString() ?? null, url: `/files/${key}` };
+      return { key, name: displayName(key), size: file.Size ?? 0, updatedAt: file.LastModified?.toISOString() ?? null, url: `/files/${key}?view=1` };
     }).sort((a, b) => (b.updatedAt ?? "").localeCompare(a.updatedAt ?? ""));
     return NextResponse.json({ folder, folders, files });
   } catch (error) {

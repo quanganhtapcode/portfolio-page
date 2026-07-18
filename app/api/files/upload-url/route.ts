@@ -19,7 +19,7 @@ export async function POST(request: Request) {
       { expiresIn: 300 },
     );
     const publicKey = toPublicKey(key);
-    return NextResponse.json({ uploadUrl, key: publicKey, publicUrl: `/files/${publicKey}`, headers: { "Content-Type": type } });
+    return NextResponse.json({ uploadUrl, key: publicKey, publicUrl: `/files/${publicKey}?view=1`, headers: { "Content-Type": type } });
   } catch (error) {
     console.error(error);
     return NextResponse.json({ error: "Could not prepare the upload. Check the R2 configuration." }, { status: 500 });

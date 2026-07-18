@@ -32,7 +32,7 @@ export function normalizeFolder(value: string) {
 export function createFileKey(filename: string, folder = "") {
   const safeName = safeSegment(filename).slice(0, 120) || "file";
   const safeFolder = normalizeFolder(folder);
-  return `${FILES_PREFIX}${safeFolder ? `${safeFolder}/` : ""}${crypto.randomUUID()}--${safeName}`;
+  return `${FILES_PREFIX}${safeFolder ? `${safeFolder}/` : ""}${safeName}`;
 }
 
 export function folderMarkerKey(folder: string) {
