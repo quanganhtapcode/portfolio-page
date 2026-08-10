@@ -1,0 +1,39 @@
+"use client";
+
+import { useEffect, useState } from "react";
+import styles from "../../files/files.module.css";
+
+type ResearchItem = { status: string; meta: string; title: string; description: string; linkLabel: string; link: string };
+type ExperienceItem = { dates: string; role: string; company: string; description: string };
+type PortfolioContent = { research: ResearchItem[]; experience: ExperienceItem[] };
+
+const blankResearch: ResearchItem = { status: "Under review", meta: "Journal · Year", title: "", description: "", linkLabel: "Read more", link: "" };
+const blankExperience: ExperienceItem = { dates: "", role: "", company: "", description: "" };
+
+export default function ContentAdmin() {
+  const [content, setContent] = useState<PortfolioContent | null>(null);
+  const [message, setMessage] = useState("Loading content...");
+  const [saving, setSaving] = useState(false);
+
+  useEffect(() => {
+    fetch("/api/admin/content").then(async (response) => {
+      if (response.status === 401) throw new Error("Sign in at File Admin first.");
+      const data = await response.json(); if (!response.ok) throw new Error(data.error || "Could not load content."); return data;
+    }).then((data) => { setContent(data); setMessage(""); }).catch((error: Error) => setMessage(error.message));
+  }, []);
+
+  function updateResearch(index: number, field: keyof ResearchItem, value: string) { if (!content) return; const research = [...content.research]; research[index] = { ...research[index], [field]: value }; setContent({ ...content, research }); }
+  function updateExperience(index: number, field: keyof ExperienceItem, value: string) { if (!content) return; const experience = [...content.experience]; experience[index] = { ...experience[index], [field]: value }; setContent({ ...content, experience }); }
+  function move<T>(items: T[], index: number, direction: -1 | 1) { const target = index + direction; if (target < 0 || target >= items.length) return items; const copy = [...items]; [copy[index], copy[target]] = [copy[target], copy[index]]; return copy; }
+
+  async function save() { if (!content) return; setSaving(true); setMessage("Saving..."); try { const response = await fetch("/api/admin/content", { method: "PUT", headers: { "Content-Type": "application/json" }, body: JSON.stringify(content) }); const data = await response.json(); if (!response.ok) throw new Error(data.error || "Could not save."); setContent(data); setMessage("Published. Your portfolio is updated."); } catch (error) { setMessage(error instanceof Error ? error.message : "Could not save."); } finally { setSaving(false); } }
+
+  if (!content) return <main className={styles.page}><header className={styles.header}><a className={styles.brand} href="/">LA<sup>&reg;</sup></a><a className={styles.adminLink} href="/files/admin">File admin</a></header><p className={styles.status}>{message}</p></main>;
+
+  return <main className={styles.page}>
+    <header className={styles.header}><a className={styles.brand} href="/">LA<sup>&reg;</sup></a><div className={styles.headerActions}><a className={styles.adminLink} href="/files/admin">File admin</a><a className={styles.adminLink} href="/">View portfolio</a></div></header>
+    <section className={styles.adminIntro}><p className={styles.eyebrow}>Private area</p><h1>Portfolio content.</h1><p>Add, edit, reorder or remove Research and Experience. Press Publish when you are ready; no GitHub update is needed.</p><button className={styles.publishButton} onClick={() => void save()} disabled={saving}>{saving ? "Publishing..." : "Publish changes"}</button>{message && <p className={styles.message}>{message}</p>}</section>
+    <section className={styles.editorSection}><div className={styles.editorHead}><h2>Research</h2><button onClick={() => setContent({ ...content, research: [...content.research, { ...blankResearch }] })}>Add research</button></div>{content.research.map((item, index) => <article className={styles.editorCard} key={`research-${index}`}><div className={styles.editorCardHead}><span>{String(index + 1).padStart(2, "0")}</span><div><button onClick={() => setContent({ ...content, research: move(content.research, index, -1) })} disabled={index === 0}>Up</button><button onClick={() => setContent({ ...content, research: move(content.research, index, 1) })} disabled={index === content.research.length - 1}>Down</button><button className={styles.deleteButton} onClick={() => setContent({ ...content, research: content.research.filter((_, i) => i !== index) })}>Remove</button></div></div><label>Status<input value={item.status} onChange={(event) => updateResearch(index, "status", event.target.value)} /></label><label>Journal / conference / year<input value={item.meta} onChange={(event) => updateResearch(index, "meta", event.target.value)} /></label><label>Title<input value={item.title} onChange={(event) => updateResearch(index, "title", event.target.value)} /></label><label>Description<textarea value={item.description} onChange={(event) => updateResearch(index, "description", event.target.value)} /></label><div className={styles.editorGrid}><label>Link label<input value={item.linkLabel} onChange={(event) => updateResearch(index, "linkLabel", event.target.value)} /></label><label>Link URL<input type="url" value={item.link} onChange={(event) => updateResearch(index, "link", event.target.value)} /></label></div></article>)}</section>
+    <section className={styles.editorSection}><div className={styles.editorHead}><h2>Experience</h2><button onClick={() => setContent({ ...content, experience: [...content.experience, { ...blankExperience }] })}>Add experience</button></div>{content.experience.map((item, index) => <article className={styles.editorCard} key={`experience-${index}`}><div className={styles.editorCardHead}><span>{String(index + 1).padStart(2, "0")}</span><div><button onClick={() => setContent({ ...content, experience: move(content.experience, index, -1) })} disabled={index === 0}>Up</button><button onClick={() => setContent({ ...content, experience: move(content.experience, index, 1) })} disabled={index === content.experience.length - 1}>Down</button><button className={styles.deleteButton} onClick={() => setContent({ ...content, experience: content.experience.filter((_, i) => i !== index) })}>Remove</button></div></div><div className={styles.editorGrid}><label>Dates<input value={item.dates} onChange={(event) => updateExperience(index, "dates", event.target.value)} /></label><label>Company<input value={item.company} onChange={(event) => updateExperience(index, "company", event.target.value)} /></label></div><label>Role<input value={item.role} onChange={(event) => updateExperience(index, "role", event.target.value)} /></label><label>Description<textarea value={item.description} onChange={(event) => updateExperience(index, "description", event.target.value)} /></label></article>)}</section>
+  </main>;
+}
