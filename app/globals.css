@@ -14,3 +14,4 @@
 
 
 
+.hero h1{font-size:clamp(calc(116px * var(--hero-scale,1)),calc(14vw * var(--hero-scale,1)),calc(224px * var(--hero-scale,1)))}.intro h2,.education h2,.feature h2,.researchHead h2{font-size:clamp(calc(50px * var(--heading-scale,1)),calc(6.4vw * var(--heading-scale,1)),calc(96px * var(--heading-scale,1)))}.signature{font-size:calc(22px * var(--body-scale,1))}.nav{font-size:calc(17px * var(--body-scale,1))}.intro div>p,.feature>div>p:not(.tag),.researchList div>p:not(.researchMeta),.experience article>p:last-child,.credentials p{font-size:calc(16px * var(--body-scale,1))}.intro div>p{font-size:calc(18px * var(--body-scale,1))}
