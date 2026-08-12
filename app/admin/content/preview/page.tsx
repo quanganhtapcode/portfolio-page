@@ -9,7 +9,7 @@ export default function PortfolioPreview() {
   const [content, setContent] = useState<PortfolioContent | null>(null);
   const [selected, setSelected] = useState<EditTarget | null>(null);
   useEffect(() => {
-    const receive = (event: MessageEvent) => { if (event.origin !== window.location.origin) return; if (event.data?.type === "portfolio-preview-content") setContent(event.data.content as PortfolioContent); if (event.data?.type === "portfolio-preview-selected") setSelected(event.data.target as EditTarget); };
+    const receive = (event: MessageEvent) => { if (event.origin !== window.location.origin) return; if (event.data?.type === "portfolio-preview-content") setContent(event.data.content as PortfolioContent); if (event.data?.type === "portfolio-preview-selected") setSelected(event.data.target as EditTarget); if (event.data?.type === "portfolio-preview-commit-request") { const active = document.activeElement as HTMLElement | null; active?.blur(); window.setTimeout(() => window.parent.postMessage({ type: "portfolio-preview-commit-complete" }, window.location.origin), 0); } };
     window.addEventListener("message", receive);
     window.parent.postMessage({ type: "portfolio-preview-ready" }, window.location.origin);
     return () => window.removeEventListener("message", receive);

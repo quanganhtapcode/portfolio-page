@@ -16,6 +16,7 @@ export default function ContentAdmin() {
   const [content, setContent] = useState<PortfolioContent | null>(null);
   const [message, setMessage] = useState("Loading content...");
   const [saving, setSaving] = useState(false);
+  const [publishAfterCommit, setPublishAfterCommit] = useState(false);
   const [selected, setSelected] = useState<Target>({ scope: "settings", field: "heroGreeting", label: "Hero greeting", scale: "heroScale", base: 224, min: 180, max: 291 });
   const previewFrame = useRef<HTMLIFrameElement>(null);
 
@@ -34,6 +35,7 @@ export default function ContentAdmin() {
       if (event.data.type === "portfolio-preview-select") setSelected(event.data.target as Target);
       if (event.data.type === "portfolio-preview-text") updateTargetFor(event.data.target as Target, String(event.data.value || ""));
       if (event.data.type === "portfolio-preview-font") setScaleFor(event.data.target as Target, Number(event.data.size));
+      if (event.data.type === "portfolio-preview-commit-complete") setPublishAfterCommit(true);
     }
     window.addEventListener("message", receive);
     return () => window.removeEventListener("message", receive);
@@ -44,6 +46,8 @@ export default function ContentAdmin() {
   }, [content]);
 
   useEffect(() => { previewFrame.current?.contentWindow?.postMessage({ type: "portfolio-preview-selected", target: selected }, window.location.origin); }, [selected]);
+
+  useEffect(() => { if (publishAfterCommit && content) { setPublishAfterCommit(false); void persist(content); } }, [publishAfterCommit, content]);
 
   function updateSettings(field: keyof SiteSettings, value: string | number) { if (content) setContent({ ...content, settings: { ...content.settings, [field]: value } }); }
   function updateResearch(index: number, field: keyof ResearchItem, value: string) { if (content) { const research = [...content.research]; research[index] = { ...research[index], [field]: value }; setContent({ ...content, research }); } }
@@ -56,7 +60,8 @@ export default function ContentAdmin() {
   function scaleValue() { return content && selected.scale && selected.base ? Math.round(content.settings[selected.scale] * selected.base) : 0; }
   function componentName(target: Target) { if (target.scope === "research") return `Research item ${target.index + 1}`; if (target.scope === "experience") return `Experience item ${target.index + 1}`; if (target.field.startsWith("hero")) return "Hero"; if (target.field.startsWith("about")) return "About"; if (target.field.startsWith("work")) return "Portfolio"; if (target.field.startsWith("research")) return "Research"; if (target.field.startsWith("experience")) return "Experience"; if (target.field.startsWith("education")) return "Education"; return "Footer"; }
   function move<T>(items: T[], index: number, direction: -1 | 1) { const target = index + direction; if (target < 0 || target >= items.length) return items; const copy = [...items]; [copy[index], copy[target]] = [copy[target], copy[index]]; return copy; }
-  async function save() { if (!content) return; setSaving(true); setMessage("Publishing..."); try { const response = await fetch("/api/admin/content", { method: "PUT", headers: { "Content-Type": "application/json" }, body: JSON.stringify(content) }); const data = await response.json(); if (!response.ok) throw new Error(data.error || "Could not publish."); setContent(data); setMessage("Published. Your portfolio is updated."); } catch (error) { setMessage(error instanceof Error ? error.message : "Could not publish."); } finally { setSaving(false); } }
+  async function persist(value: PortfolioContent) { setSaving(true); setMessage("Publishing..."); try { const response = await fetch("/api/admin/content", { method: "PUT", headers: { "Content-Type": "application/json" }, body: JSON.stringify(value) }); const data = await response.json(); if (!response.ok) throw new Error(data.error || "Could not publish."); setContent(data); setMessage("Published. Your portfolio is updated."); } catch (error) { setMessage(error instanceof Error ? error.message : "Could not publish."); } finally { setSaving(false); } }
+  function save() { if (!content || saving) return; setMessage("Saving your inline edits..."); previewFrame.current?.contentWindow?.postMessage({ type: "portfolio-preview-commit-request" }, window.location.origin); }
   function editable(target: Target, text: string, className = "") { let active = selected.scope === target.scope && selected.field === target.field; if (active && target.scope !== "settings" && selected.scope !== "settings") active = selected.index === target.index; return <button type="button" className={`${styles.editablePreview} ${active ? styles.editablePreviewActive : ""} ${className}`} onClick={() => setSelected(target)}>{text || "Click to add text"}</button>; }
 
   if (!content) return <main className={styles.page}><header className={styles.header}><a className={styles.brand} href="/">LA<sup>R</sup></a></header><p className={styles.status}>{message}</p></main>;
