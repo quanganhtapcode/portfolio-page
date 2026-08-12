@@ -18,3 +18,5 @@
 /* Every editable typography group reads the same scale variables used by the editor. */
 .workHead,.workHead .eyebrow,.tag,.researchHead .eyebrow,.researchList>article>span,.researchMeta,.experience>.eyebrow,.experience span,.education>.eyebrow{font-size:calc(12px * var(--about-eyebrow-scale,1))}.feature a,.editorPreview .work .editorPreviewLink,.researchList a,.editorPreview .editorPreviewLink{font-size:calc(13px * var(--body-scale,1))}.experience b{font-size:calc(13px * var(--body-scale,1))}footer>p{font-size:clamp(calc(40px * var(--heading-scale,1)),calc(5vw * var(--heading-scale,1)),calc(72px * var(--heading-scale,1)))}
 .editorPreview .editorComponent{cursor:pointer;outline:1px solid transparent;outline-offset:-6px}.editorPreview .editorComponent:hover{outline-color:rgba(49,91,233,.65)}
+/* Typography roles: section labels are shared; metadata never follows section-label changes. */
+.workHead,.workHead .eyebrow,.researchHead .eyebrow,.experience>.eyebrow,.education>.eyebrow{font-size:calc(12px * var(--section-label-scale,1))}.workHead>p:last-child,.tag,.researchList>article>span,.researchMeta,.experience span{font-size:calc(12px * var(--meta-scale,1))}
