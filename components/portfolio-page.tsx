@@ -5,15 +5,18 @@ import type { PortfolioContent, SiteSettings, ResearchItem, ExperienceItem } fro
 import type { EditTarget, ScaleField } from "@/lib/portfolio-editor";
 
 const Arrow = () => <span className="arrowIcon" aria-hidden="true" />;
-type Props = { content: PortfolioContent; edit?: boolean; onSelect?: (target: EditTarget) => void };
+type Props = { content: PortfolioContent; edit?: boolean; selected?: EditTarget | null; onSelect?: (target: EditTarget) => void; onTextChange?: (target: EditTarget, value: string) => void };
 
-export default function PortfolioPage({ content, edit = false, onSelect }: Props) {
+export default function PortfolioPage({ content, edit = false, selected, onSelect, onTextChange }: Props) {
   const s = content.settings;
   const style = { "--hero-scale": s.heroScale, "--heading-scale": s.headingScale, "--body-scale": s.bodyScale, "--about-eyebrow-scale": s.aboutEyebrowScale, "--section-label-scale": s.sectionLabelScale, "--meta-scale": s.metaScale, "--about-eyebrow-tracking": s.aboutEyebrowTracking, "--research-title-scale": s.researchTitleScale, "--experience-title-scale": s.experienceTitleScale } as CSSProperties;
   const setting = (field: keyof SiteSettings, label: string, scale?: ScaleField, base?: number, min?: number, max?: number, tracking?: boolean): EditTarget => ({ scope: "settings", field, label, scale, base, min, max, tracking });
   const research = (index: number, field: keyof ResearchItem, label: string, scale?: ScaleField, base?: number, min?: number, max?: number): EditTarget => ({ scope: "research", index, field, label, scale, base, min, max });
   const experience = (index: number, field: keyof ExperienceItem, label: string, scale?: ScaleField, base?: number, min?: number, max?: number): EditTarget => ({ scope: "experience", index, field, label, scale, base, min, max });
-  const text = (target: EditTarget, value: string): ReactNode => edit ? <span className="editorClickable" onClick={(event) => { event.stopPropagation(); onSelect?.(target); }}>{value || "Click to add text"}</span> : value;
+  const text = (target: EditTarget, value: string): ReactNode => {
+    const active = selected?.scope === target.scope && selected.field === target.field && (target.scope === "settings" || selected?.scope === "settings" ? target.scope === selected?.scope : selected.index === target.index);
+    return edit ? <span className={`editorClickable ${active ? "editorClickableActive" : ""}`} contentEditable suppressContentEditableWarning onClick={(event) => { event.stopPropagation(); onSelect?.(target); }} onBlur={(event) => onTextChange?.(target, event.currentTarget.textContent || "")}>{value || "Click to add text"}</span> : value;
+  };
   const link = (target: EditTarget, href: string, value: string) => edit ? <span className="editorPreviewLink">{text(target, value)} <Arrow /></span> : <a href={href} target="_blank" rel="noreferrer">{value || "Read more"} <Arrow /></a>;
   const footerText = edit ? text(setting("footerHeading", "Footer quote", "headingScale", 96, 36, 180), s.footerHeading) : s.footerHeading.split("\n").map((line, index) => <span key={`${line}-${index}`}>{line}{index < s.footerHeading.split("\n").length - 1 && <br/>}</span>);
   const sectionClass = (base: string) => edit ? `${base} editorComponent` : base;
