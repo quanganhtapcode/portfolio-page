@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import type { CSSProperties, ReactNode } from "react";
 import type { PortfolioContent, SiteSettings, ResearchItem, ExperienceItem } from "@/lib/portfolio-content";
-import type { EditTarget, ScaleField } from "@/lib/portfolio-editor";
+import { targetKey, type EditTarget, type ScaleField } from "@/lib/portfolio-editor";
 
 const Arrow = () => <span className="arrowIcon" aria-hidden="true" />;
 type Props = { content: PortfolioContent; edit?: boolean; selected?: EditTarget | null; onSelect?: (target: EditTarget) => void; onTextChange?: (target: EditTarget, value: string) => void };
@@ -22,7 +22,9 @@ export default function PortfolioPage({ content, edit = false, selected, onSelec
   const experience = (index: number, field: keyof ExperienceItem, label: string, scale?: ScaleField, base?: number, min?: number, max?: number): EditTarget => ({ scope: "experience", index, field, label, scale, base, min, max });
   const text = (target: EditTarget, value: string): ReactNode => {
     const active = selected?.scope === target.scope && selected.field === target.field && (target.scope === "settings" || selected?.scope === "settings" ? target.scope === selected?.scope : selected.index === target.index);
-    return edit ? <span className={`editorClickable ${active ? "editorClickableActive" : ""}`} contentEditable suppressContentEditableWarning onClick={(event) => { event.stopPropagation(); onSelect?.(target); }} onBlur={(event) => onTextChange?.(target, event.currentTarget.textContent || "")}>{value || "Click to add text"}</span> : value;
+    if (edit) return <span className={`editorClickable ${active ? "editorClickableActive" : ""}`} contentEditable suppressContentEditableWarning onClick={(event) => { event.stopPropagation(); onSelect?.(target); }} onInput={(event) => onTextChange?.(target, event.currentTarget.textContent || "")}>{value || "Click to add text"}</span>;
+    const href = s.customLinks?.[targetKey(target)];
+    return href ? <a href={href} target="_blank" rel="noreferrer">{value}</a> : value;
   };
   const link = (target: EditTarget, href: string, value: string) => edit ? <span className="editorPreviewLink">{text(target, value)} <Arrow /></span> : <a href={href} target="_blank" rel="noreferrer">{value || "Read more"} <Arrow /></a>;
   const footerText = edit ? text(setting("footerHeading", "Footer quote", "headingScale", 96, 36, 180), s.footerHeading) : s.footerHeading.split("\n").map((line, index) => <span key={`${line}-${index}`}>{line}{index < s.footerHeading.split("\n").length - 1 && <br/>}</span>);
