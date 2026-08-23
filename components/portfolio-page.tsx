@@ -6,7 +6,7 @@ import type { PortfolioContent, SiteSettings, ResearchItem, ExperienceItem } fro
 import { targetKey, type EditTarget, type ScaleField } from "@/lib/portfolio-editor";
 
 const Arrow = () => <span className="arrowIcon" aria-hidden="true" />;
-type Props = { content: PortfolioContent; edit?: boolean; selected?: EditTarget | null; onSelect?: (target: EditTarget) => void; onTextChange?: (target: EditTarget, value: string) => void };
+type Props = { content: PortfolioContent; edit?: boolean; selected?: EditTarget | null; onSelect?: (target: EditTarget) => void };
 
 function EmailLink({ className }: { className?: string }) {
   const [email, setEmail] = useState("");
@@ -14,7 +14,7 @@ function EmailLink({ className }: { className?: string }) {
   return <a className={className} href={email ? `mailto:${email}` : "#"} onClick={(event) => { if (!email) event.preventDefault(); }}>{email}{email && <> <Arrow /></>}</a>;
 }
 
-export default function PortfolioPage({ content, edit = false, selected, onSelect, onTextChange }: Props) {
+export default function PortfolioPage({ content, edit = false, selected, onSelect }: Props) {
   const s = content.settings;
   const style = { "--hero-scale": s.heroScale, "--heading-scale": s.headingScale, "--body-scale": s.bodyScale, "--about-eyebrow-scale": s.aboutEyebrowScale, "--section-label-scale": s.sectionLabelScale, "--meta-scale": s.metaScale, "--about-eyebrow-tracking": s.aboutEyebrowTracking, "--research-title-scale": s.researchTitleScale, "--experience-title-scale": s.experienceTitleScale } as CSSProperties;
   const setting = (field: keyof SiteSettings, label: string, scale?: ScaleField, base?: number, min?: number, max?: number, tracking?: boolean): EditTarget => ({ scope: "settings", field, label, scale, base, min, max, tracking });
@@ -22,7 +22,7 @@ export default function PortfolioPage({ content, edit = false, selected, onSelec
   const experience = (index: number, field: keyof ExperienceItem, label: string, scale?: ScaleField, base?: number, min?: number, max?: number): EditTarget => ({ scope: "experience", index, field, label, scale, base, min, max });
   const text = (target: EditTarget, value: string): ReactNode => {
     const active = selected?.scope === target.scope && selected.field === target.field && (target.scope === "settings" || selected?.scope === "settings" ? target.scope === selected?.scope : selected.index === target.index);
-    if (edit) return <span className={`editorClickable ${active ? "editorClickableActive" : ""}`} contentEditable suppressContentEditableWarning onClick={(event) => { event.stopPropagation(); onSelect?.(target); }} onInput={(event) => onTextChange?.(target, event.currentTarget.textContent || "")}>{value || "Click to add text"}</span>;
+    if (edit) return <span className={`editorClickable ${active ? "editorClickableActive" : ""}`} role="button" tabIndex={0} onClick={(event) => { event.stopPropagation(); onSelect?.(target); }} onKeyDown={(event) => { if (event.key === "Enter" || event.key === " ") { event.preventDefault(); onSelect?.(target); } }}>{value || "Click to add text"}</span>;
     const href = s.customLinks?.[targetKey(target)];
     return href ? <a className="contentLink" href={href} target="_blank" rel="noreferrer">{value}</a> : value;
   };
