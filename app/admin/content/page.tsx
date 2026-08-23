@@ -4,12 +4,12 @@ import { useEffect, useRef, useState } from "react";
 import styles from "../../files/files.module.css";
 import { targetKey, type EditTarget as Target } from "@/lib/portfolio-editor";
 
-type ResearchItem = { status: string; meta: string; title: string; description: string; doi: string; linkLabel: string; link: string };
+type ResearchItem = { status: string; meta: string; title: string; description: string; linkLabel: string; link: string; doi?: string };
 type ExperienceItem = { dates: string; role: string; company: string; description: string };
 type SiteSettings = { heroScale: number; headingScale: number; bodyScale: number; aboutEyebrowScale: number; sectionLabelScale: number; metaScale: number; aboutEyebrowTracking: number; researchTitleScale: number; experienceTitleScale: number; paperColor?: string; inkColor?: string; accentColor?: string; experienceColor?: string; customLinks?: Record<string, string>; heroGreeting: string; heroDescription: string; aboutEyebrow: string; aboutHeadingPrimary: string; aboutHeadingAccent: string; aboutDescription: string; workLabel: string; workRange: string; workTag: string; workTitlePrimary: string; workTitleAccent: string; workDescription: string; workLinkLabel: string; workLink: string; researchLabel: string; researchHeadingPrimary: string; researchHeadingAccent: string; experienceLabel: string; educationLabel: string; educationHeadingPrimary: string; educationHeadingAccent: string; footerHeading: string };
 type PortfolioContent = { research: ResearchItem[]; experience: ExperienceItem[]; settings: SiteSettings };
 
-const blankResearch: ResearchItem = { status: "Under review", meta: "Journal / year", title: "", description: "", doi: "", linkLabel: "Read more", link: "" };
+const blankResearch: ResearchItem = { status: "Under review", meta: "Journal / year", title: "", description: "", linkLabel: "Read more", link: "" };
 const blankExperience: ExperienceItem = { dates: "", role: "", company: "", description: "" };
 
 export default function ContentAdmin() {
@@ -107,7 +107,7 @@ export default function ContentAdmin() {
         <div className={styles.editorGrid}><label>Status<input value={item.status} onChange={(event) => updateResearch(index, "status", event.target.value)} /></label><label>Journal / conference / year<input value={item.meta} onChange={(event) => updateResearch(index, "meta", event.target.value)} /></label></div>
         <label>Title<input value={item.title} onChange={(event) => updateResearch(index, "title", event.target.value)} /></label>
         <label>Description<textarea value={item.description} onChange={(event) => updateResearch(index, "description", event.target.value)} /></label>
-        <div className={styles.editorGrid}><label>DOI (optional)<input placeholder="10.xxxx/xxxxx" value={item.doi} onChange={(event) => updateResearch(index, "doi", event.target.value)} /></label><label>Link text<input value={item.linkLabel} onChange={(event) => updateResearch(index, "linkLabel", event.target.value)} /></label></div>
+        <label>Link title <small>(for example: DOI, Read paper, View publication)</small><input value={item.linkLabel} onChange={(event) => updateResearch(index, "linkLabel", event.target.value)} /></label>
         <label>Link URL (optional)<input type="url" placeholder="https://..." value={item.link} onChange={(event) => updateResearch(index, "link", event.target.value)} /></label>
       </article>)}
       {content.experience.map((item, index) => <article className={`${styles.editorCard} ${dragging?.kind === "experience" && dragging.index === index ? styles.draggingCard : ""}`} key={`experience-${index}`} draggable onDragStart={() => setDragging({ kind: "experience", index })} onDragEnd={() => setDragging(null)} onDragOver={(event) => event.preventDefault()} onDrop={() => { if (dragging?.kind === "experience" && dragging.index !== index) setContent({ ...content, experience: reorder(content.experience, dragging.index, index) }); setDragging(null); }}>

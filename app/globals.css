@@ -20,7 +20,6 @@
 .editorPreview .editorComponent{cursor:pointer;outline:1px solid transparent;outline-offset:-6px}.editorPreview .editorComponent:hover{outline-color:rgba(49,91,233,.65)}
 .portfolioLoading{min-height:100vh;background:#fff}
 .contentLink{display:inline!important;margin:0!important;color:inherit!important;font:inherit!important;font-weight:inherit!important;text-decoration:underline!important;text-decoration-thickness:1px;text-underline-offset:.16em}
-.researchDoi{display:inline-block;margin-top:14px;color:#666660;font:500 11px 'DM Mono',monospace;letter-spacing:.04em;text-decoration:underline;text-underline-offset:.18em}.researchDoi+.contentLink,.researchDoi+ a{margin-left:22px}
 .portfolioPage{background:var(--paper);color:var(--ink)}.portfolioPage .experience{background:var(--experience-bg)}
 /* Typography roles: section labels are shared; metadata never follows section-label changes. */
 .workHead,.workHead .eyebrow,.researchHead .eyebrow,.experience>.eyebrow,.education .eyebrow{font-size:calc(12px * var(--section-label-scale,1))}.workHead>p:last-child,.tag,.researchList>article>span,.researchMeta,.experience span{font-size:calc(12px * var(--meta-scale,1))}
