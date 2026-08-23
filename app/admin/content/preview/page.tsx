@@ -15,7 +15,7 @@ export default function PortfolioPreview() {
     return () => window.removeEventListener("message", receive);
   }, []);
   if (!content) return <main className="previewLoading">Loading portfolio preview...</main>;
-  const size = selected?.scale && selected.base ? Math.round(content.settings[selected.scale] * selected.base) : null;
+  const size = selected?.scale && selected.base ? Math.round(content.settings[selected.scale] * selected.base * .75) : null;
   function select(target: EditTarget) { setSelected(target); window.parent.postMessage({ type: "portfolio-preview-select", target }, window.location.origin); }
-  return <><PortfolioPage content={content} edit selected={selected} onSelect={select} />{selected && <div className="inlineEditorToolbar" role="status"><span className="toolbarType">Editing: {selected.label}</span>{size !== null && <output>{size} px</output>}<span className="toolbarHint">Use the panel on the right to edit</span></div>}</>;
+  return <><PortfolioPage content={content} edit selected={selected} onSelect={select} />{selected && <div className="inlineEditorToolbar" role="status"><span className="toolbarType">Editing: {selected.label}</span>{size !== null && <output>{size} pt</output>}<span className="toolbarHint">Use the panel on the right to edit</span></div>}</>;
 }
