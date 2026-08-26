@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { FormEvent, useEffect, useRef, useState } from "react";
 import styles from "../../files/files.module.css";
 import { targetKey, type EditTarget as Target } from "@/lib/portfolio-editor";
 
@@ -13,6 +13,9 @@ const blankResearch: ResearchItem = { status: "Under review", meta: "Journal / y
 const blankExperience: ExperienceItem = { dates: "", role: "", company: "", description: "" };
 
 export default function ContentAdmin() {
+  const [authenticated, setAuthenticated] = useState<boolean | null>(null);
+  const [password, setPassword] = useState("");
+  const [signingIn, setSigningIn] = useState(false);
   const [content, setContent] = useState<PortfolioContent | null>(null);
   const [message, setMessage] = useState("Loading content...");
   const [saving, setSaving] = useState(false);
@@ -21,13 +24,18 @@ export default function ContentAdmin() {
   const previewFrame = useRef<HTMLIFrameElement>(null);
 
   useEffect(() => {
+    fetch("/api/files/status").then((response) => response.json()).then((data) => setAuthenticated(data.authenticated)).catch(() => setAuthenticated(false));
+  }, []);
+
+  useEffect(() => {
+    if (!authenticated) return;
     fetch("/api/admin/content").then(async (response) => {
-      if (response.status === 401) throw new Error("Sign in at File Admin first.");
+      if (response.status === 401) { setAuthenticated(false); throw new Error("Your session has expired."); }
       const data = await response.json();
       if (!response.ok) throw new Error(data.error || "Could not load content.");
       return data;
     }).then((data) => { setContent(data); setMessage(""); }).catch((error: Error) => setMessage(error.message));
-  }, []);
+  }, [authenticated]);
 
   useEffect(() => {
     function receive(event: MessageEvent) {
@@ -74,6 +82,20 @@ export default function ContentAdmin() {
   function save() { if (!content || saving) return; void persist(content); }
   function editable(target: Target, text: string, className = "") { let active = selected.scope === target.scope && selected.field === target.field; if (active && target.scope !== "settings" && selected.scope !== "settings") active = selected.index === target.index; return <button type="button" className={`${styles.editablePreview} ${active ? styles.editablePreviewActive : ""} ${className}`} onClick={() => setSelected(target)}>{text || "Click to add text"}</button>; }
 
+  async function signIn(event: FormEvent) {
+    event.preventDefault();
+    setSigningIn(true); setMessage("");
+    try {
+      const response = await fetch("/api/files/login", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ password }) });
+      const data = await response.json();
+      if (!response.ok) throw new Error(data.error || "Could not sign in.");
+      setPassword(""); setAuthenticated(true);
+    } catch (error) { setMessage(error instanceof Error ? error.message : "Could not sign in."); }
+    finally { setSigningIn(false); }
+  }
+
+  if (authenticated === null) return <main className={styles.page}><p className={styles.status}>Checking access...</p></main>;
+  if (!authenticated) return <main className={styles.page}><header className={styles.header}><a className={styles.brand} href="/">LA<sup>R</sup></a><div className={styles.headerActions}><a className={styles.adminLink} href="/admin/files">File admin</a><a className={styles.adminLink} href="/">View portfolio</a></div></header><section className={styles.login}><p className={styles.eyebrow}>Private area / portfolio</p><h1>Profile editor.</h1><p>Sign in to update your portfolio, research, experience and design settings.</p><form onSubmit={signIn}><label htmlFor="password">Admin password</label><input id="password" type="password" value={password} onChange={(event) => setPassword(event.target.value)} autoFocus required /><button disabled={signingIn}>{signingIn ? "Signing in..." : "Sign in"}</button></form>{message && <p className={styles.message}>{message}</p>}</section></main>;
   if (!content) return <main className={styles.page}><header className={styles.header}><a className={styles.brand} href="/">LA<sup>R</sup></a></header><p className={styles.status}>{message}</p></main>;
   const s = content.settings;
   return <main className={styles.page}>
