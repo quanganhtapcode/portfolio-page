@@ -4,11 +4,15 @@ import { getBucketName, getR2Client } from "@/lib/r2";
 const CONTENT_KEY = "portfolio-content.json";
 export type ResearchItem = { status: string; meta: string; title: string; description: string; linkLabel: string; link: string; doi?: string };
 export type ExperienceItem = { dates: string; role: string; company: string; description: string };
-export type SiteSettings = { heroScale: number; headingScale: number; bodyScale: number; aboutEyebrowScale: number; sectionLabelScale: number; metaScale: number; aboutEyebrowTracking: number; researchTitleScale: number; experienceTitleScale: number; paperColor?: string; inkColor?: string; accentColor?: string; experienceColor?: string; customLinks?: Record<string, string>; heroGreeting: string; heroDescription: string; aboutEyebrow: string; aboutHeadingPrimary: string; aboutHeadingAccent: string; aboutDescription: string; workLabel: string; workRange: string; workTag: string; workTitlePrimary: string; workTitleAccent: string; workDescription: string; workLinkLabel: string; workLink: string; researchLabel: string; researchHeadingPrimary: string; researchHeadingAccent: string; experienceLabel: string; educationLabel: string; educationHeadingPrimary: string; educationHeadingAccent: string; footerHeading: string };
-export type PortfolioContent = { research: ResearchItem[]; experience: ExperienceItem[]; settings: SiteSettings };
+export type SectionId = "hero" | "about" | "work" | "research" | "experience" | "education" | "footer";
+export type SectionStyle = { background: string; color: string; bold: boolean };
+export type TextStyle = { bold: boolean; color: string };
+export type CustomBlock = { id: string; type: "text" | "quote" | "callout"; label: string; title: string; body: string; linkLabel: string; link: string; background: string; color: string; bold: boolean };
+export type SiteSettings = { heroScale: number; headingScale: number; bodyScale: number; aboutEyebrowScale: number; sectionLabelScale: number; metaScale: number; aboutEyebrowTracking: number; researchTitleScale: number; experienceTitleScale: number; paperColor?: string; inkColor?: string; accentColor?: string; experienceColor?: string; customLinks?: Record<string, string>; sectionStyles?: Partial<Record<SectionId, SectionStyle>>; textStyles?: Record<string, TextStyle>; heroGreeting: string; heroDescription: string; aboutEyebrow: string; aboutHeadingPrimary: string; aboutHeadingAccent: string; aboutDescription: string; workLabel: string; workRange: string; workTag: string; workTitlePrimary: string; workTitleAccent: string; workDescription: string; workLinkLabel: string; workLink: string; researchLabel: string; researchHeadingPrimary: string; researchHeadingAccent: string; experienceLabel: string; educationLabel: string; educationHeadingPrimary: string; educationHeadingAccent: string; footerHeading: string };
+export type PortfolioContent = { research: ResearchItem[]; experience: ExperienceItem[]; customBlocks: CustomBlock[]; settings: SiteSettings };
 
 export const defaultSettings: SiteSettings = { heroScale: 1, headingScale: 1, bodyScale: 1, aboutEyebrowScale: 1, sectionLabelScale: 1, metaScale: 1, aboutEyebrowTracking: .08, researchTitleScale: 1, experienceTitleScale: 1, heroGreeting: "Hello.", heroDescription: "IÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡Ãƒâ€šÃ‚Â¬ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¾Ãƒâ€šÃ‚Â¢m Le Quang Anh, a finance & deals analyst.", aboutEyebrow: "A finance-first perspective", aboutHeadingPrimary: "Market intelligence,", aboutHeadingAccent: "made useful.", aboutDescription: "I turn market data, policy shifts and company fundamentals into investment insight. My work brings research discipline, financial modelling and clear communication together.", workLabel: "Selected portfolio", workRange: "01 ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡Ãƒâ€šÃ‚Â¬ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€šÃ‚Â 03", workTag: "Independent build ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â· Python / Flask", workTitlePrimary: "Stock valuation", workTitleAccent: "web application.", workDescription: "Equity valuation made practical. A full-stack tool that automates FCFE, FCFF, Justified P/E and Justified P/B models for listed stocks.", workLinkLabel: "Visit the live product", workLink: "https://stock.quanganh.org", researchLabel: "Research", researchHeadingPrimary: "Questions worth", researchHeadingAccent: "investigating.", experienceLabel: "Professional experience", educationLabel: "Education & credentials", educationHeadingPrimary: "A strong foundation", educationHeadingAccent: "for whatÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡Ãƒâ€šÃ‚Â¬ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¾Ãƒâ€šÃ‚Â¢s next.", footerHeading: "Have an opportunity\nin mind?" };
-export const defaultPortfolioContent: PortfolioContent = { settings: defaultSettings, research: [
+export const defaultPortfolioContent: PortfolioContent = { settings: defaultSettings, customBlocks: [], research: [
   { status: "Under review", meta: "Finance Research Letters ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â· Journal submission", title: "Beyond Liquidity: Market Design, Contract Lifecycle, and Informed Trading in Decentralized Prediction Markets", description: "Research on how market design and contract lifecycle shape informed trading in decentralized prediction markets, using trade-level evidence from Polymarket.", doi: "", linkLabel: "Read on SSRN", link: "https://dx.doi.org/10.2139/ssrn.6933527" },
   { status: "Research award", meta: "UEB-SITE Student Research Conference ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â· 2024ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡Ãƒâ€šÃ‚Â¬ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€¦Ã¢â‚¬Å“2025", title: "Second Prize ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡Ãƒâ€šÃ‚Â¬ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€šÃ‚Â Financial Inclusion and Sustainable Development Goals in Asian Countries", description: "Co-authored research with Nguyen Thai Ha on the relationship between financial inclusion and progress toward the SDGs across Asian countries.", doi: "", linkLabel: "View official announcement", link: "https://cite.ueb.edu.vn/article-chuc-mung-cac-%E2%80%9Cchien-binh%E2%80%9D-dat-giai-tai-hoi-nghi-nghien-cuu-khoa-hoc-cap-vien-dao-tao-quoc-te-(ueb-site)-nam-hoc-2024---2025-22239-1338.html" },
   { status: "International conference", meta: "GPAC 2025 ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â· National Chengchi University, Taiwan", title: "Global Partnership of Asian Colleges: ESG & AI", description: "Represented UEB-SITE alongside students and faculty from University of Economics & BusinessÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡Ãƒâ€šÃ‚Â¬ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€¦Ã¢â‚¬Å“VNU, National Chengchi University, Chiba University of Commerce, Waseda University, Seoul National University, and COMAS Israel. Received 4th Prize in Paper Presentation and 3rd Prize in Case Competition.", doi: "", linkLabel: "Read GPAC 2025 highlight", link: "https://lnkd.in/gNqzE6GG" },
@@ -31,20 +35,54 @@ function getCustomLinks(value: unknown) {
   }));
 }
 
+function getSectionStyles(value: unknown) {
+  if (!value || typeof value !== "object" || Array.isArray(value)) return {};
+  const raw = value as Record<string, unknown>;
+  const ids: SectionId[] = ["hero", "about", "work", "research", "experience", "education", "footer"];
+  return Object.fromEntries(ids.flatMap((id) => {
+    const style = raw[id];
+    if (!style || typeof style !== "object" || Array.isArray(style)) return [];
+    const item = style as Record<string, unknown>;
+    return [[id, { background: getColor(item.background, ""), color: getColor(item.color, ""), bold: item.bold === true }]];
+  })) as Partial<Record<SectionId, SectionStyle>>;
+}
+
+function getTextStyles(value: unknown) {
+  if (!value || typeof value !== "object" || Array.isArray(value)) return {};
+  return Object.fromEntries(Object.entries(value as Record<string, unknown>).flatMap(([key, style]) => {
+    if (key.length > 160 || !style || typeof style !== "object" || Array.isArray(style)) return [];
+    const item = style as Record<string, unknown>;
+    return [[key, { bold: item.bold === true, color: getColor(item.color, "") }]];
+  })) as Record<string, TextStyle>;
+}
+
+function getCustomBlocks(value: unknown): CustomBlock[] {
+  if (!Array.isArray(value) || value.length > 20) return [];
+  return value.flatMap((item) => {
+    if (!item || typeof item !== "object" || Array.isArray(item)) return [];
+    const block = item as Record<string, unknown>;
+    const type = block.type;
+    if ((type !== "text" && type !== "quote" && type !== "callout") || !["id", "label", "title", "body", "linkLabel", "link", "background", "color"].every((field) => isString(block[field]))) return [];
+    return [{ id: String(block.id).slice(0, 80), type, label: String(block.label).trim(), title: String(block.title).trim(), body: String(block.body).trim(), linkLabel: String(block.linkLabel).trim(), link: String(block.link).trim(), background: getColor(block.background, "#ffffff"), color: getColor(block.color, "#101215"), bold: block.bold === true }];
+  });
+}
+
 export function sanitizePortfolioContent(value: unknown): PortfolioContent {
   if (!value || typeof value !== "object") throw new Error("Invalid content.");
-  const raw = value as { research?: unknown; experience?: unknown; settings?: unknown };
+  const raw = value as { research?: unknown; experience?: unknown; customBlocks?: unknown; settings?: unknown };
   if (!Array.isArray(raw.research) || !Array.isArray(raw.experience) || raw.research.length > 30 || raw.experience.length > 30) throw new Error("Invalid content.");
   const research = raw.research.map((item) => { const entry = item as Record<string, unknown>; const { status, meta, title, description, linkLabel, link } = entry; if (![status, meta, title, description, linkLabel, link].every(isString)) throw new Error("Invalid research item."); const legacyDoi = isString(entry.doi) ? entry.doi.trim() : ""; const existingLink = String(link).trim(); return { status: String(status).trim(), meta: String(meta).trim(), title: String(title).trim(), description: String(description).trim(), linkLabel: existingLink ? String(linkLabel).trim() : legacyDoi ? "DOI" : String(linkLabel).trim(), link: existingLink || (legacyDoi ? (legacyDoi.startsWith("http://") || legacyDoi.startsWith("https://") ? legacyDoi : `https://doi.org/${legacyDoi}`) : "") }; });
   const experience = raw.experience.map((item) => { const entry = item as Record<string, unknown>; const { dates, role, company, description } = entry; if (![dates, role, company, description].every(isString)) throw new Error("Invalid experience item."); return { dates: String(dates).trim(), role: String(role).trim(), company: String(company).trim(), description: String(description).trim() }; });
   const settingsRaw = raw.settings as Record<string, unknown> | undefined;
   const settings = { ...defaultSettings, heroScale: getScale(settingsRaw?.heroScale, defaultSettings.heroScale), headingScale: getScale(settingsRaw?.headingScale, defaultSettings.headingScale), bodyScale: getScale(settingsRaw?.bodyScale, defaultSettings.bodyScale), aboutEyebrowScale: getScale(settingsRaw?.aboutEyebrowScale, defaultSettings.aboutEyebrowScale), sectionLabelScale: getScale(settingsRaw?.sectionLabelScale, defaultSettings.sectionLabelScale), metaScale: getScale(settingsRaw?.metaScale, defaultSettings.metaScale), aboutEyebrowTracking: getTracking(settingsRaw?.aboutEyebrowTracking, defaultSettings.aboutEyebrowTracking), researchTitleScale: getScale(settingsRaw?.researchTitleScale, defaultSettings.researchTitleScale), experienceTitleScale: getScale(settingsRaw?.experienceTitleScale, defaultSettings.experienceTitleScale), heroGreeting: getString(settingsRaw?.heroGreeting, defaultSettings.heroGreeting), heroDescription: getString(settingsRaw?.heroDescription, defaultSettings.heroDescription), aboutEyebrow: getString(settingsRaw?.aboutEyebrow, defaultSettings.aboutEyebrow), aboutHeadingPrimary: getString(settingsRaw?.aboutHeadingPrimary, defaultSettings.aboutHeadingPrimary), aboutHeadingAccent: getString(settingsRaw?.aboutHeadingAccent, defaultSettings.aboutHeadingAccent), aboutDescription: getString(settingsRaw?.aboutDescription, defaultSettings.aboutDescription), workLabel: getString(settingsRaw?.workLabel, defaultSettings.workLabel), workRange: getString(settingsRaw?.workRange, defaultSettings.workRange), workTag: getString(settingsRaw?.workTag, defaultSettings.workTag), workTitlePrimary: getString(settingsRaw?.workTitlePrimary, defaultSettings.workTitlePrimary), workTitleAccent: getString(settingsRaw?.workTitleAccent, defaultSettings.workTitleAccent), workDescription: getString(settingsRaw?.workDescription, defaultSettings.workDescription), workLinkLabel: getString(settingsRaw?.workLinkLabel, defaultSettings.workLinkLabel), workLink: getString(settingsRaw?.workLink, defaultSettings.workLink), researchLabel: getString(settingsRaw?.researchLabel, defaultSettings.researchLabel), researchHeadingPrimary: getString(settingsRaw?.researchHeadingPrimary, defaultSettings.researchHeadingPrimary), researchHeadingAccent: getString(settingsRaw?.researchHeadingAccent, defaultSettings.researchHeadingAccent), experienceLabel: getString(settingsRaw?.experienceLabel, defaultSettings.experienceLabel), educationLabel: getString(settingsRaw?.educationLabel, defaultSettings.educationLabel), educationHeadingPrimary: getString(settingsRaw?.educationHeadingPrimary, defaultSettings.educationHeadingPrimary), educationHeadingAccent: getString(settingsRaw?.educationHeadingAccent, defaultSettings.educationHeadingAccent), footerHeading: getString(settingsRaw?.footerHeading, defaultSettings.footerHeading) };
   settings.customLinks = getCustomLinks(settingsRaw?.customLinks);
+  settings.sectionStyles = getSectionStyles(settingsRaw?.sectionStyles);
+  settings.textStyles = getTextStyles(settingsRaw?.textStyles);
   settings.paperColor = getColor(settingsRaw?.paperColor, "#ffffff");
   settings.inkColor = getColor(settingsRaw?.inkColor, "#121314");
   settings.accentColor = getColor(settingsRaw?.accentColor, "#315be9");
   settings.experienceColor = getColor(settingsRaw?.experienceColor, "#f1f5f8");
-  return { research, experience, settings };
+  return { research, experience, customBlocks: getCustomBlocks(raw.customBlocks), settings };
 }
 
 export async function loadPortfolioContent(): Promise<PortfolioContent> { try { const object = await getR2Client().send(new GetObjectCommand({ Bucket: getBucketName(), Key: CONTENT_KEY })); return sanitizePortfolioContent(JSON.parse(await object.Body?.transformToString() || "{}")); } catch (error) { if (error instanceof NoSuchKey || (error as { name?: string }).name === "NoSuchKey") return defaultPortfolioContent; console.error("Could not load portfolio content", error); return defaultPortfolioContent; } }
