@@ -1,4 +1,5 @@
 import { GetObjectCommand, NoSuchKey, PutObjectCommand } from "@aws-sdk/client-s3";
+import { unstable_cache } from "next/cache";
 import { getBucketName, getR2Client } from "@/lib/r2";
 
 const CONTENT_KEY = "portfolio-content.json";
@@ -85,5 +86,7 @@ export function sanitizePortfolioContent(value: unknown): PortfolioContent {
   return { research, experience, customBlocks: getCustomBlocks(raw.customBlocks), settings };
 }
 
-export async function loadPortfolioContent(): Promise<PortfolioContent> { try { const object = await getR2Client().send(new GetObjectCommand({ Bucket: getBucketName(), Key: CONTENT_KEY })); return sanitizePortfolioContent(JSON.parse(await object.Body?.transformToString() || "{}")); } catch (error) { if (error instanceof NoSuchKey || (error as { name?: string }).name === "NoSuchKey") return defaultPortfolioContent; console.error("Could not load portfolio content", error); return defaultPortfolioContent; } }
+export async function loadPortfolioContentUncached(): Promise<PortfolioContent> { try { const object = await getR2Client().send(new GetObjectCommand({ Bucket: getBucketName(), Key: CONTENT_KEY })); return sanitizePortfolioContent(JSON.parse(await object.Body?.transformToString() || "{}")); } catch (error) { if (error instanceof NoSuchKey || (error as { name?: string }).name === "NoSuchKey") return defaultPortfolioContent; console.error("Could not load portfolio content", error); return defaultPortfolioContent; } }
+const loadCachedPortfolioContent = unstable_cache(loadPortfolioContentUncached, ["portfolio-content"], { revalidate: 300, tags: ["portfolio-content"] });
+export async function loadPortfolioContent(): Promise<PortfolioContent> { return loadCachedPortfolioContent(); }
 export async function savePortfolioContent(value: unknown) { const content = sanitizePortfolioContent(value); await getR2Client().send(new PutObjectCommand({ Bucket: getBucketName(), Key: CONTENT_KEY, Body: JSON.stringify(content), ContentType: "application/json", CacheControl: "no-store" })); return content; }
