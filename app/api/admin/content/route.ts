@@ -14,7 +14,7 @@ export async function PUT(request: Request) {
   if (!(await isFilesAdmin())) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   try {
     const content = await savePortfolioContent(await request.json());
-    revalidateTag("portfolio-content", "max");
+    revalidateTag("portfolio-content", { expire: 0 });
     revalidatePath("/");
     return NextResponse.json(content);
   } catch (error) {
